@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "removeComments": true,
+    "sourceMap": false,
+    "preserveConstEnums": true,
+    "outDir": "./.temp",
+    "declaration": true,
+    "lib": ["es2015","dom"]
+  },
+  "include": ["src"],
+  "exclude": [
+    "node_modules"
+  ]
+}

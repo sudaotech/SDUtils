@@ -1,0 +1,24 @@
+{
+  "name": "sudao-utils",
+  "version": "1.0.0",
+  "description": "速道科技--taro js常用工具库",
+  "main": "dist/index.js",
+  "private": false,
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prebuild": "./node_modules/.bin/tsc",
+    "build": "node build.js"
+  },
+  "keywords": [],
+  "author": "chenkfjava",
+  "license": "ISC",
+  "devDependencies": {
+    "@tarojs/taro-weapp": "^1.2.0-beta.7",
+    "typescript": "^3.1.5",
+    "uglify-js": "^3.4.9"
+  }
+}
