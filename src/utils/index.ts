@@ -1,4 +1,5 @@
 import Taro from '@tarojs/taro-weapp'
+import {ApiConfig} from '../request'
 
 type ValidResult = {
   success: boolean,
@@ -244,6 +245,65 @@ const deepClone = (obj: object): object => {
   return JSON.parse(JSON.stringify(obj))
 }
 
+const formatDuration = (seconds: number): string => {
+  let h = parseInt(`${seconds / 3600}`)
+  let m = parseInt(`${(seconds - h * 3600) / 60}`)
+  let s = seconds - h * 3600 - m * 60
+  if (h > 0) {
+    return [fillZero(h), fillZero(m), fillZero(s)].join(':')
+  }
+  return [fillZero(m), fillZero(s)].join(':')
+}
+
+const fillZero = (inputVal: number | string): string => {
+  return `${inputVal}`[1] ? `${inputVal}` : `0${inputVal}`
+}
+
+const formatPrice = (money: string, showSymbol: boolean = true) => {
+  if (/[^0-9\.]/.test(money)) {
+    return showSymbol ? '￥0.00' : '0.00'
+  }
+  money = parseFloat(money).toFixed(2)
+  money = money.replace(/^(\d*)$/, "$1.");
+  money = (money + "00").replace(/(\d*\.\d\d)\d*/, "$1");
+  money = money.replace(".", ",");
+  let re = /(\d)(\d{3},)/;
+  while (re.test(money)) {
+    money = money.replace(re, "$1,$2");
+  }
+  money = money.replace(/,(\d\d)$/, ".$1");
+  return showSymbol ? "￥" + money.replace(/^\./, "0.") : money.replace(/^\./, "0.")
+}
+
+const processImageURL = (originURL: string, width: number = 0, height: number = 0): string => {
+  if (!originURL) {
+    return ''
+  }
+  let baseURL = ''
+  if (ApiConfig.baseImageURL) {
+    baseURL = ApiConfig.baseImageURL()
+  }
+  height = height > 0 ? height : width
+  if (width > 0 && height > 0 && originURL.length > 0) {
+    if (originURL.endsWith('/')) {
+      originURL = `${originURL}${width}x${height}`
+    } else {
+      originURL = `${originURL}/${width}x${height}`
+    }
+  }
+  if (baseURL.length == 0) {
+    return originURL
+  }
+  if (originURL.startsWith('http')) {
+    return originURL
+  }
+  if (originURL.startsWith('/') && baseURL.endsWith('/')) {
+    baseURL = baseURL.substr(0, baseURL.length - 1)
+  }
+  let needLine = !originURL.startsWith('/') && !baseURL.endsWith('/')
+  return `${baseURL}${needLine ? '/':''}${originURL}`
+}
+
 export default {
   showMsg,
   formatDate,
@@ -253,5 +313,8 @@ export default {
   validFixedPhone,
   trimStr,
   strIsEmpty,
-  deepClone
+  deepClone,
+  formatDuration,
+  formatPrice,
+  processImageURL
 }

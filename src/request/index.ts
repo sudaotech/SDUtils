@@ -10,6 +10,7 @@ export enum AppEnvironment {
 
 export class ApiConfig {
   static baseURL?(path: string): string
+  static baseImageURL?(): string
 }
 
 export class AbortToken {

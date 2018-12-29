@@ -14,7 +14,7 @@
     "build": "node build.js"
   },
   "keywords": [],
-  "author": "chenkfjava",
+  "author": "sfuser",
   "license": "ISC",
   "devDependencies": {
     "@tarojs/taro-weapp": "^1.2.0-beta.7",
