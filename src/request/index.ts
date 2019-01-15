@@ -77,7 +77,7 @@ const doRequest =
       data: data,
       method: method,
       success: function (res) {
-        const respData = res.data || {}
+        const respData = res.data === undefined ? {} : res.data
         const respHeader = res.header || {}
         if (res.statusCode == 200) {
           if (isLogin) {
