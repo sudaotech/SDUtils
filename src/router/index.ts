@@ -8,7 +8,7 @@ let isFinishJump: boolean = true
  * @param params     跳转携带参数（只能是简单object类型）
  * @param isPush    是否是push 默认 true
  */
-const jumpTo = (pagePath: string, params: object = {}, isPush: boolean = true): void => {
+const jumpTo = (pagePath: string, params: object = {}, isPush: boolean = true): Promise<any> => {
   if (pagePath.length == 0) { return }
   if (!isFinishJump) { return }
 
@@ -44,12 +44,17 @@ const jumpTo = (pagePath: string, params: object = {}, isPush: boolean = true): 
     fn = Taro.redirectTo
   }
 
-  fn({
-    url: targetURL
-  }).catch(error => {
-    console.error(error.errMsg || `跳转失败, 目标地址: ${targetURL}`)
-  }).finally(() => {
-    isFinishJump = true
+  return new Promise<any>((resolve, reject) => {
+    fn({
+      url: targetURL
+    }).then(() => {
+      isFinishJump = true
+      resolve()
+    }).catch(error => {
+      // console.error(error.errMsg || `跳转失败, 目标地址: ${targetURL}`)
+      isFinishJump = true
+      reject(error)
+    })
   })
 }
 
