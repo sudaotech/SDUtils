@@ -1,6 +1,6 @@
 {
   "name": "sudao-utils",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "速道科技--taro js常用工具库",
   "main": "dist/index.js",
   "private": false,
